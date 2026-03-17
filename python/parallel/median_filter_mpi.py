@@ -39,9 +39,8 @@ def filter_rows(data, width, local_rows, half=1):
             neighbors = []
             for ki in range(-half, half + 1):
                 for kj in range(-half, half + 1):
-                    ni = actual_i + ki
+                    ni = max(0, min(total_rows - 1, actual_i + ki))
                     nj = max(0, min(width - 1, j + kj))
-                    ni = max(0, min(total_rows - 1, ni))
                     neighbors.append(data[ni * width + nj])
             neighbors.sort()
             result[i * width + j] = neighbors[len(neighbors) // 2]

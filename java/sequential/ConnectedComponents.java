@@ -11,9 +11,11 @@ public class ConnectedComponents {
         if (!magic.equals("P2")) throw new IOException("Not a P2 PGM file: " + magic);
         String line;
         while ((line = br.readLine()) != null && line.startsWith("#")) {}
-        Scanner sc = new Scanner(line);
-        int width = sc.nextInt();
-        int height = sc.nextInt();
+        int width, height;
+        try (Scanner sc = new Scanner(line)) {
+            width = sc.nextInt();
+            height = sc.nextInt();
+        }
         br.readLine(); // maxval
         int[][] pixels = new int[height][width];
         StreamTokenizer st = new StreamTokenizer(br);

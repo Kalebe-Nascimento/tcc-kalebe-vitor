@@ -12,9 +12,11 @@ public class MedianFilterMPI {
         if (!magic.equals("P2")) throw new IOException("Not a P2 PGM file");
         String line;
         while ((line = br.readLine()) != null && line.startsWith("#")) {}
-        Scanner sc = new Scanner(line);
-        int width = sc.nextInt();
-        int height = sc.nextInt();
+        int width, height;
+        try (Scanner sc = new Scanner(line)) {
+            width = sc.nextInt();
+            height = sc.nextInt();
+        }
         int maxval = Integer.parseInt(br.readLine().trim());
         dims[0] = width; dims[1] = height; dims[2] = maxval;
         int[] pixels = new int[width * height];

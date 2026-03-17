@@ -14,9 +14,11 @@ public class MedianFilter {
         // Skip comments
         while ((line = br.readLine()) != null && line.startsWith("#")) {}
         // line now has width height
-        Scanner sc = new Scanner(line);
-        int width = sc.nextInt();
-        int height = sc.nextInt();
+        int width, height;
+        try (Scanner sc = new Scanner(line)) {
+            width = sc.nextInt();
+            height = sc.nextInt();
+        }
         int maxval = Integer.parseInt(br.readLine().trim());
 
         int[][] pixels = new int[height][width];

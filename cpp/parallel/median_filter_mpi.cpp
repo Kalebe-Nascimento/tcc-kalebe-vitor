@@ -65,11 +65,8 @@ std::vector<int> filterRows(const std::vector<int>& data, int width, int localRo
             std::vector<int> neighbors;
             for (int ki = -half; ki <= half; ki++) {
                 for (int kj = -half; kj <= half; kj++) {
-                    int ni = actualI + ki;
+                    int ni = std::max(0, std::min(totalRows - 1, actualI + ki));
                     int nj = std::max(0, std::min(width - 1, j + kj));
-                    // clamp ni
-                    if (ni < 0) ni = 0;
-                    if (ni >= totalRows) ni = totalRows - 1;
                     neighbors.push_back(data[ni * width + nj]);
                 }
             }
