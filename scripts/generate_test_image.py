@@ -46,6 +46,7 @@ def generate_binary_image(width, height, seed=42):
     rng = random.Random(seed)
     pixels = [0] * (width * height)
 
+    # Use ~1 shape per 2000 pixels to keep components sparse and well-separated
     num_shapes = max(10, (width * height) // 2000)
 
     for _ in range(num_shapes):

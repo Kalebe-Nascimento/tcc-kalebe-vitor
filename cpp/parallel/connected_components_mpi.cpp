@@ -239,7 +239,7 @@ int main(int argc, char* argv[]) {
         std::vector<int> outPixels(width * height, 0);
         for (int i = 0; i < width * height; i++) {
             if (allLabels[i] != -1) {
-                int root = allLabels[i]; // already find()-ed above, but do final find
+                int root = allLabels[i]; // already resolved via find() before gather
                 if (labelMap.find(root) == labelMap.end())
                     labelMap[root] = ++compCount;
                 outPixels[i] = labelMap[root];

@@ -29,16 +29,16 @@ def write_pgm(filename, pixels, width, height, maxval):
             f.write(' '.join(map(str, pixels[i * width:(i + 1) * width])) + '\n')
 
 
-def filter_rows(data, width, local_rows, half=1):
+def filter_rows(data, width, local_rows, halo_size=1):
     """Apply median filter to local_rows rows. data includes halo rows."""
-    total_rows = local_rows + 2 * half
+    total_rows = local_rows + 2 * halo_size
     result = [0] * (local_rows * width)
     for i in range(local_rows):
-        actual_i = i + half
+        actual_i = i + halo_size
         for j in range(width):
             neighbors = []
-            for ki in range(-half, half + 1):
-                for kj in range(-half, half + 1):
+            for ki in range(-halo_size, halo_size + 1):
+                for kj in range(-halo_size, halo_size + 1):
                     ni = max(0, min(total_rows - 1, actual_i + ki))
                     nj = max(0, min(width - 1, j + kj))
                     neighbors.append(data[ni * width + nj])
@@ -85,7 +85,7 @@ def main():
         local_data.extend(all_pixels[src_row * width:(src_row + 1) * width])
 
     t_start = time.perf_counter()
-    local_result = filter_rows(local_data, width, my_rows, half)
+    local_result = filter_rows(local_data, width, my_rows, halo_size=half)
     t_end = time.perf_counter()
 
     # Gather results

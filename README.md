@@ -59,7 +59,7 @@ tcc-kalebe-vitor/
 
 ### Java
 - JDK 11+: `sudo apt-get install default-jdk`
-- [MPJ Express](http://mpjexpress.org/) para execução paralela
+- [MPJ Express](https://mpjexpress.org/) para execução paralela
 
 ### Python
 - Python 3.8+

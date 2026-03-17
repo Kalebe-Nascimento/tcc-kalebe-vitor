@@ -47,8 +47,9 @@ void writePGM(const std::string& filename, const PGMImage& img) {
 }
 
 int medianOf(std::vector<int>& v) {
-    std::sort(v.begin(), v.end());
-    return v[v.size() / 2];
+    size_t mid = v.size() / 2;
+    std::nth_element(v.begin(), v.begin() + mid, v.end());
+    return v[mid];
 }
 
 // Apply median filter to rows [startRow, endRow) of the full image buffer

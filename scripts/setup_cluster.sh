@@ -73,10 +73,16 @@ setup_ssh_keys() {
 
 configure_hosts_file() {
     log "Configuring /etc/hosts..."
-    echo "# TCC Cluster Nodes" | sudo tee -a /etc/hosts
-    echo "$(hostname -I | awk '{print $1}') $MASTER" | sudo tee -a /etc/hosts
+    MASTER_IP=$(hostname -I | awk '{print $1}')
+    # Only append if the entry does not already exist
+    if ! grep -q " $MASTER$" /etc/hosts 2>/dev/null; then
+        echo "# TCC Cluster Nodes" | sudo tee -a /etc/hosts
+        echo "$MASTER_IP $MASTER" | sudo tee -a /etc/hosts
+    fi
     for node in $NODES; do
-        echo "# Add IP for $node manually if needed" | sudo tee -a /etc/hosts
+        if ! grep -q " $node$" /etc/hosts 2>/dev/null; then
+            echo "# Add IP for $node manually if needed" | sudo tee -a /etc/hosts
+        fi
     done
 }
 
@@ -89,7 +95,9 @@ setup_nfs() {
     fi
 
     mkdir -p "$PROJECT_DIR"
-    echo "$PROJECT_DIR *(rw,sync,no_subtree_check,no_root_squash)" | sudo tee -a /etc/exports
+    # Restrict NFS access to the local subnet for security
+    SUBNET=$(hostname -I | awk '{split($1,a,"."); printf "%s.%s.%s.0/24", a[1], a[2], a[3]}')
+    echo "$PROJECT_DIR $SUBNET(rw,sync,no_subtree_check)" | sudo tee -a /etc/exports
     sudo exportfs -ra
     sudo systemctl restart nfs-kernel-server 2>/dev/null || sudo service nfs-kernel-server restart 2>/dev/null || true
     log "NFS server configured. Project dir: $PROJECT_DIR"
