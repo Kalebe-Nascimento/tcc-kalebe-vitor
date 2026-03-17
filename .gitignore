@@ -1,0 +1,19 @@
+# C++ binaries
+cpp/sequential/median_filter
+cpp/sequential/connected_components
+cpp/parallel/median_filter_mpi
+cpp/parallel/connected_components_mpi
+
+# Java class files
+**/*.class
+
+# Python cache
+**/__pycache__/
+**/*.pyc
+
+# Result files (keep .gitkeep)
+results/*.pgm
+results/*.txt
+
+# MPI hostfile
+hostfile
